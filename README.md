@@ -1,4 +1,4 @@
-# pixel plant
+# Pixel Plant
 Virtual Pixel Plant
 
 You take care of this plant, water it, and it will grow a different flower each time it blooms. 
