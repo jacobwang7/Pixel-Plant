@@ -19,9 +19,10 @@ let frame = 0;
 let framesDrawn = 10;
 
 function animate() {
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.drawImage(saplingSpriteSheet, srcX * spriteWidth, 0, 100, 100, CANVAS_WIDTH/2 - 50, CANVAS_HEIGHT/2 - 50, 100, 100);
     if (frame % framesDrawn == 0) {
-        if (srcX < 4) {
+        if (srcX < 3) {
             srcX++;
         } else {
             srcX = 0;
