@@ -1,6 +1,30 @@
 const waterBtn = document.getElementById('water-btn');
 let dateNum = 0;
 let consecutiveNum = 0;
+let current = new Date();
+current = Date.parse(current)
+const oneDayNum =  1000 * 60 * 60 * 24; 
+
+const initialCheck = async () => {
+    try {
+        console.log('DATE', dateNum)
+        if(dateNum + oneDayNum < current) {
+            newUpdate = {
+                "name": "Jake's Plant",
+                "watered": false,
+                "lastWatered": dateNum,
+                "consecutive": consecutiveNum
+            }
+            const resp = await axios.patch('http://localhost:8000/watered_plant/62d1c1bb14642d27e7852668', newUpdate);
+            if(resp) {
+                console.log(resp.data);
+            }
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const getData = async () => {
     try {
         const response = await axios.get('http://localhost:8000/plant/62d1c1bb14642d27e7852668');
@@ -111,5 +135,5 @@ const waterPlant = async () => {
     }
 }
 
-getData()
+getData().then(() => initialCheck()).then(() => getData()); 
 waterBtn.addEventListener('click', waterPlant);
