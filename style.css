@@ -11,6 +11,7 @@ body {
 .container {
     height: 200px;
     position: relative;
+    background: skyblue;
 }
   
 .center {
@@ -23,7 +24,7 @@ body {
 }
 
 button#water-btn {
-    border: 2px solid skyblue;
+    border: 2px solid aliceblue;
     padding: 5px 10px;
     padding-bottom: 0px;
     border-radius: 20px;
@@ -38,4 +39,8 @@ button#water-btn {
 
 button#water-btn:active {
     background: #00008b;
+}
+
+canvas#canvas {
+    background: darkseagreen;
 }
