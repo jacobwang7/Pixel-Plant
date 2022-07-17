@@ -22,23 +22,12 @@ exports.getPlant = async (req, res) => {
 exports.waterPlant = async (req, res) => {
     try {
         const plant = await Plant.findById(req.params.id)
-        Object.assign(plant, req.body)
-        plant.save()
-        res.send({data: plant})
+        if (plant) {
+            Object.assign(plant, req.body)
+            plant.save()
+            res.send({data: plant})
+        }
     } catch (err) {
         res.send({message: err.message});
     }
 };
-
-/*
-{
-    watered: false,
-    consecutive: req.body.num,
-    //lastWatered: req.body.date
-},
-{
-    watered: true,
-    consecutive: req.body.num + 1,
-    //lastWatered: today.format('Y-m-d')
-}
-*/
