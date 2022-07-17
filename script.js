@@ -1,21 +1,14 @@
+const waterBtn = document.getElementById('water-btn');
+let dateNum = 0;
+let consecutiveNum = 0;
 const getData = async () => {
     try {
         const response = await axios.get('http://localhost:8000/plant/62d1c1bb14642d27e7852668');
         if(response) {
-            const plant = response.data
-            console.log(plant.data)
-            let date = plant.data.lastWatered
-            console.log(date)
-            date = Date.parse(date)
-            console.log(date)
-            let today = new Date();
-            today = Date.parse(today)
-            console.log(today)
-            
-            const oneDay =  1000 * 60 * 60 * 24; 
-            const newDate = new Date(today + oneDay);
-            console.log(newDate)
-            
+            const plant = response.data;
+            console.log(plant.data);
+            dateNum = plant.data.lastWatered;
+            consecutiveNum = plant.data.consecutive;
             if(plant.data.watered == false) {
                 const canvas = document.getElementById("canvas");
                 const ctx = canvas.getContext("2d");
@@ -78,4 +71,45 @@ const getData = async () => {
         console.log(err)
     }
 };
+
+const waterPlant = async () => {
+    try {
+        let today = new Date();
+        today = Date.parse(today)
+        const oneDay =  1000 * 60 * 60 * 24; 
+        
+        if(today-dateNum >= oneDay && today-dateNum < 2 * oneDay) {
+            newUpdate = {
+                "name": "Jake's Plant",
+                "watered": true,
+                "lastWatered": today,
+                "consecutive": consecutiveNum + 1
+            }
+        } else if(today-dateNum < oneDay) {
+            newUpdate = {
+                "name": "Jake's Plant",
+                "watered": true,
+                "lastWatered": today,
+                "consecutive": consecutiveNum
+            }
+        } else {
+            newUpdate = {
+                "name": "Jake's Plant",
+                "watered": true,
+                "lastWatered": today,
+                "consecutive": 1
+            }
+        }
+
+        const resp = await axios.patch('http://localhost:8000/watered_plant/62d1c1bb14642d27e7852668', newUpdate);
+        if(resp) {
+            console.log(resp.data);
+            getData();
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 getData()
+waterBtn.addEventListener('click', waterPlant);
