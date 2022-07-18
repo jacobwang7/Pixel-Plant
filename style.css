@@ -23,6 +23,13 @@ body {
     transform: translate(-50%, -50%);
 }
 
+h1 {
+    text-align: center;
+    background: cadetblue;
+    font-family: monospace;
+    color: aquamarine;
+}
+
 button#water-btn {
     border: 2px solid aliceblue;
     padding: 5px 10px;
