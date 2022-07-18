@@ -33,7 +33,37 @@ const getData = async () => {
             console.log(plant.data);
             dateNum = plant.data.lastWatered;
             consecutiveNum = plant.data.consecutive;
-            if(plant.data.watered == false) {
+            if(plant.data.consecutive % 3 == 0 && plant.data.consecutive != 0) {
+                const canvas = document.getElementById("canvas");
+                document.getElementById("container").style.display = "none";
+                const ctx = canvas.getContext("2d");
+                const CANVAS_WIDTH = canvas.width = window.innerWidth;
+                const CANVAS_HEIGHT = canvas.height = window.innerHeight;
+                const saplingSpriteSheet = new Image();
+                saplingSpriteSheet.src = "flowerspritesheet.png";
+
+                let spriteWidth = 100;
+                let srcX = 0;
+
+                let frame = 0;
+                let framesDrawn = 10;
+
+                function animate() {
+                    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                    ctx.drawImage(saplingSpriteSheet, srcX * spriteWidth, 0, 100, 100, CANVAS_WIDTH/2 - 50, CANVAS_HEIGHT/2 - 50, 100, 100);
+                    if (frame % framesDrawn == 0) {
+                        if (srcX < 3) {
+                            srcX++;
+                        } else {
+                            srcX = 0;
+                        } 
+                    }
+                    frame++;
+                    requestAnimationFrame(animate);
+                };
+                animate();
+            }
+            else if(plant.data.watered == false) {
                 const canvas = document.getElementById("canvas");
                 const ctx = canvas.getContext("2d");
                 const CANVAS_WIDTH = canvas.width = window.innerWidth;
@@ -113,7 +143,7 @@ const waterPlant = async () => {
             newUpdate = {
                 "name": "Jake's Plant",
                 "watered": true,
-                "lastWatered": today,
+                "lastWatered": dateNum,
                 "consecutive": consecutiveNum
             }
         } else {
@@ -137,3 +167,4 @@ const waterPlant = async () => {
 
 getData().then(() => initialCheck()).then(() => getData()); 
 waterBtn.addEventListener('click', waterPlant);
+
