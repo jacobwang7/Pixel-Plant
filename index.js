@@ -4,7 +4,6 @@ const dayjs = require('dayjs')
 const plantController = require('./controllers/plant') 
 require('dotenv/config')
 
-//process.env.DB_CONNECTION_STRING 
 mongoose.connect(
     process.env.DB_CONNECTION_STRING,
     {useUnifiedTopology: true, useNewUrlParser: true}
